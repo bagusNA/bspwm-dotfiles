@@ -1,0 +1,374 @@
+/* Auto-hide everything: https://gist.github.com/MisteryMonster/9416f84d35f49c78d3a6ad565661d88d
+stealthFox: https://github.com/vipintom/stealthFox */
+
+
+/*#this fix the urlbar not getting correct params when using userchrome.css#*/
+
+:root:not([uidensity]) #urlbar[breakout],
+:root:not([uidensity]) #urlbar-container[breakout] {
+	--urlbar-toolbar-height: 40px !important;
+	--urlbar-height: 32px !important;
+	--urlbar-container-height: 40px!important;
+}
+
+:root[uidensity=touch] #urlbar[breakout],
+:root[uidensity=touch] #urlbar-container[breakout] {
+	--urlbar-toolbar-height: 44px !important;
+	--urlbar-height: 34px !important;
+	--urlbar-container-height: 44px!important;
+}
+
+/*Adjust Mute icon*/
+
+.tabbrowser-tab:not([visuallyselected=true]):not(:hover) .tab-icon-overlay {
+	opacity: 1!important;
+	top: -9.5px!important;
+	inset-inline-end: -6px!important;
+	stroke: var(--tab-icon-overlay-stroke, white)!important;
+	transition: var(--Tabs-transition-duration);
+}
+
+.tabbrowser-tab:not([visuallyselected=true]):not(:hover) .tab-icon-sound {
+	display: none!important;
+}
+
+
+/*not to confuse using new tabs button*/
+
+#TabsToolbar:not(:hover) #tabs-newtab-button {
+	opacity: 0!important;
+}
+
+
+/* 
+# Auto-hide Navigation bar
+Source file https://github.com/MrOtherGuy/firefox-csshacks/tree/master/chrome/autohide_bookmarks_toolbar.css made available under Mozilla Public License v. 2.0
+See the above repository for updates as well as full license text. 
+*/
+
+:root {
+	--navbar-transition-delay: 0.2s;
+	--navbar-transition-duration: 135ms;
+	--nav-bar-margin: calc(-1 * (var(--tab-block-margin) + var(--tab-min-height)));
+}
+
+:root:not([uidensity]) {
+	--bookmark-bar-margin: -28px;
+}
+
+:root[uidensity=touch] {
+	--bookmark-bar-margin: -34px;
+}
+
+
+/*Auto-hide url-bar*/
+
+:root:not([customizing])[chromehidden=""][sizemode="normal"] #nav-bar,
+:root:not([customizing])[chromehidden=""][sizemode="maximized"] #nav-bar {
+	position: relative;
+	margin-bottom: var(--nav-bar-margin);
+	transform: rotateX(90deg);
+	transform-origin: top;
+	transition: transform var(--navbar-transition-duration) linear var(--navbar-transition-delay) !important;
+	z-index: 101;
+}
+
+:root:not([customizing])[sizemode="normal"] #navigator-toolbox:hover #nav-bar,
+:root:not([customizing])[sizemode="maximized"] #navigator-toolbox:hover #nav-bar,
+:root:not([customizing])[sizemode="normal"] #navigator-toolbox:focus-within #nav-bar,
+:root:not([customizing])[sizemode="maximized"] #navigator-toolbox:focus-within #nav-bar {
+	transform: rotateX(0deg);
+	transition-delay: 0s!important;
+}
+
+
+/* Auto-hide bookmark bar */
+
+#PersonalToolbar {
+	--uc-autohide-toolbar-delay: 600ms;
+}
+
+:root:not([customizing])[sizemode="normal"] #PersonalToolbar,
+:root:not([customizing])[sizemode="maximized"] #PersonalToolbar {
+	position: relative;
+	margin-bottom: var(--bookmark-bar-margin);
+	transform: rotateX(90deg) translate(0px, calc(-1 * var(--bookmark-bar-margin)));
+	transform-origin: top;
+	transition: transform var(--navbar-transition-duration) linear var(--navbar-transition-delay)!important;
+	z-index: 99;
+}
+
+:root:not([customizing])[sizemode="normal"] #navigator-toolbox:hover #PersonalToolbar,
+:root:not([customizing])[sizemode="maximized"] #navigator-toolbox:hover #PersonalToolbar {
+	transition-delay: 0s!important;
+	transform: rotateX(0) translate(0px, calc(-1 * var(--nav-bar-margin)));
+}
+
+/*notification-deck*/
+#tab-notification-deck {
+	height: 0px!important;
+	position: relative;
+	z-index: 100;
+}
+.notificationbox-stack[notificationside="top"] {
+	margin-top: calc( -1 * var(--tab-min-height) - 2 * var(--tab-block-margin));
+	transition: transform var(--navbar-transition-duration) linear var(--navbar-transition-delay);
+}
+#navigator-toolbox:hover .notificationbox-stack[notificationside="top"], 
+#navigator-toolbox:focus-within .notificationbox-stack[notificationside="top"] {
+	transform: translate( 0, calc( 2 * var(--tab-min-height) + 2 * var(--tab-block-margin)));
+	transition-delay: 0s;
+}
+
+/*adjust theme*/
+
+:root[sizemode="maximized"]{
+	--image-height: calc( var(--tab-min-height) + 2 * var(--tab-block-margin) + 8.1px);
+}
+:root[sizemode="normal"]{
+	--image-height: calc(var(--tab-min-height) + 2 * var(--tab-block-margin));
+}
+/*tabs background fix*/
+#tabbrowser-tabs:not([movingtab]) > #tabbrowser-arrowscrollbox > .tabbrowser-tab > .tab-stack > .tab-background[multiselected=true]:-moz-lwtheme,
+#tabbrowser-tabs:not([movingtab]) > #tabbrowser-arrowscrollbox > .tabbrowser-tab > .tab-stack > .tab-background[selected=true]:-moz-lwtheme {
+	background-image: linear-gradient(var(--lwt-selected-tab-background-color, transparent), var(--lwt-selected-tab-background-color, transparent)),
+	linear-gradient(var(--toolbar-bgcolor), var(--toolbar-bgcolor))!important;
+}
+/*odd line*/
+#nav-bar {
+	box-shadow:none!important;
+}
+/*change background from navigator-toolbox to tabstoolbar */
+:root:not([customizing])[chromehidden=""][sizemode="maximized"] #navigator-toolbox:not(:-moz-lwtheme) {
+	background:-moz-Dialog!important;
+}
+:root:not([customizing])[chromehidden=""] #navigator-toolbox {
+	background:transparent!important;
+	transition-delay:var(--tabbar-transition-delay);
+}
+
+:root:not([customizing])[chromehidden=""][lwtheme-image] #navigator-toolbox:-moz-lwtheme #TabsToolbar:before {
+	background-image: var(--lwt-header-image), var(--lwt-additional-images);
+}
+:root:not([customizing])[chromehidden=""]  #TabsToolbar::before {
+	content:'';
+	position:absolute;
+	right: 0;
+	top: 0;
+	width: 100%;
+	height: var(--image-height);
+	background-image: var(--lwt-additional-images);
+	background-color: var(--lwt-accent-color-inactive, var(--lwt-accent-color))!important;
+	background-repeat: var(--lwt-background-tiling)!important;
+	background-position: var(--lwt-background-alignment)!important;
+	opacity: 0;
+	transition-property: opacity, height;
+	transition-duration: 0s,var(--navbar-transition-duration);
+	transition-delay: var(--tabbar-transition-delay), var(--navbar-transition-delay);
+	z-index: -1;
+}
+
+:root:not([customizing])[chromehidden=""][sizemode="normal"] #navigator-toolbox:-moz-lwtheme:hover #TabsToolbar::before,
+:root:not([customizing])[chromehidden=""][sizemode="normal"] #navigator-toolbox:-moz-lwtheme:focus-within #TabsToolbar::before {
+	height: calc( 2 * var(--tab-min-height) + 3 * var(--tab-block-margin));
+	opacity: 1;
+	transition-delay: 0s;
+}
+
+:root:not([customizing])[chromehidden=""][sizemode="maximized"] #navigator-toolbox:-moz-lwtheme:hover #TabsToolbar::before,
+:root:not([customizing])[chromehidden=""][sizemode="maximized"] #navigator-toolbox:-moz-lwtheme:focus-within #TabsToolbar::before {
+	height: calc( 2 * var(--tab-min-height) + 3 * var(--tab-block-margin));
+	opacity: 1;
+	transition-delay: 0s;
+}
+/*Able to drop Tabs when all hided*/
+
+:root:not([customizing])[chromehidden=""][sizemode="normal"] arrowscrollbox,
+:root:not([customizing])[chromehidden=""][sizemode="normal"] .titlebar-buttonbox-container {
+	animation: titlebaropacityoff var(--navbar-transition-duration) linear var(--tabbar-transition-delay) forwards;
+}
+
+@keyframes titlebaropacityoff {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+:root:not([customizing])[chromehidden=""][sizemode="normal"] .tab-drop-indicator {
+	animation: indicator 0s forwards;
+}
+
+@keyframes indicator {
+	from {}
+  
+	to {
+		transform: translate(0);
+		background: rgba(10, 132, 255, .5);
+		margin-right: -100vw;
+		margin-left: -40px;
+		width: 100vw;
+		border: 2px dashed rgba(10, 132, 255, 1)
+	}
+}
+:root:not([customizing])[chromehidden=""][sizemode="normal"] #navigator-toolbox:hover arrowscrollbox,
+:root:not([customizing])[chromehidden=""][sizemode="normal"] #navigator-toolbox:focus-within arrowscrollbox,
+:root:not([customizing])[chromehidden=""][sizemode="normal"] #navigator-toolbox:hover .titlebar-buttonbox-container,
+:root:not([customizing])[chromehidden=""][sizemode="normal"] #navigator-toolbox:focus-within .titlebar-buttonbox-container {
+	animation: none;
+}
+/*adjust toolbar-menubar (Alt Key)*/
+
+:root:not([customizing])[sizemode="maximized"] #navigator-toolbox:not(:hover) #toolbar-menubar:not([inactive]) {
+  margin-top: calc( 1 * var(--tab-min-height) + 2 * var(--tab-block-margin));
+	transition-delay:var(--navbar-transition-delay);
+}
+
+
+/* Hiding Tabs Toolbar */
+
+#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #TabsToolbar > .toolbar-items {
+	opacity: 0;
+	pointer-events: none;
+  }
+  #main-window:not([tabsintitlebar="true"]) #TabsToolbar {
+	  visibility: collapse !important;
+  }
+  #main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #TabsToolbar .titlebar-spacer {
+		  border-inline-end: none;
+  }
+  
+  /* Hiding Tabs Toolbar Finished */
+  
+  /* Move minimize/restore/close buttons to empty space */
+  /* #TabsToolbar > .titlebar-buttonbox-container {
+	  display: block;
+	  position: absolute;
+	  top: 10px;
+	  right: 1px;
+  }
+  
+  .titlebar-button {
+	background-color: #2B2A33;
+	margin-top : -3px !important;
+	padding-top : 12px !important;
+	padding-bottom : 12px !important;
+  } */
+  
+  /* Moving Windows Control Finish */
+  
+  /* Auto Hide Tree Style Tab  */
+  
+  /* Hide splitter, when using Tree Style Tab. */
+  #sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] + #sidebar-splitter {
+	display: none !important;
+  }
+  /* Hide sidebar header, when using Tree Style Tab. */
+  #sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar-header {
+	visibility: collapse;
+  }
+  
+  /* Shrink sidebar until hovered, when using Tree Style Tab. */
+  #sidebar-box:not([sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"]) {
+	min-width: var(--wide-tab-width) !important;
+	max-width: none !important;
+  }
+  #sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] {
+	overflow: hidden !important;
+	position: relative !important;
+	transition: all 200ms !important;
+	min-width: var(--thin-tab-width) !important;
+	max-width: var(--thin-tab-width) !important;
+	z-index: 1;
+  }
+  #sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"]:hover,
+  #sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar {
+	transition: all 200ms !important;
+	min-width: var(--wide-tab-width) !important;
+	max-width: var(--wide-tab-width) !important;
+	margin-right: calc((var(--wide-tab-width) - var(--thin-tab-width)) * -1) !important;
+	z-index: 1;
+  }
+  
+  :root { --thin-tab-width: 35px; }
+  :root { --wide-tab-width: 300px; }
+  
+  /* Auto Hide Tree Style Tab Finished */
+  
+  /* Page Actions Hide and Show on Hover */
+  
+  /* Hide Buttons and Reveal on Hover */
+  
+  #page-action-buttons:not(:hover) .urlbar-page-action,
+  #page-action-buttons:not(:hover) #star-button
+  {
+	width: 0px !important;
+	min-width: 0px !important;
+	padding-left: 0px !important;
+	padding-right: 10px !important;
+	margin-right: -5px !important;
+	transition: all 250ms ease-in-out;
+  }
+  #page-action-buttons:not(:hover) #userContext-indicator 
+  { 
+	margin-right : 37px !important;
+	transition: all 250ms ease-in-out;
+  }
+  
+  #page-action-buttons:hover .urlbar-page-action,
+  #page-action-buttons:hover #star-button {
+	visibility: visible;
+	min-width: unset !important;
+  }
+  #page-action-buttons:hover #userContext-indicator
+  { 
+	margin-right : 0px !important;
+  }
+  
+  /* Create page actions hover "button" */
+  #page-action-buttons::after 
+  {
+	content: "•••";
+	position: absolute;
+	top: 0.7em;
+	font-size: 0.7em;
+	opacity: 0.5;
+	right: 8px;
+	transition: all 50ms ease-in-out;
+  }
+  
+  
+  /* Hide the button on hover */
+  #page-action-buttons:hover::after 
+  {
+	display: none !important;
+	width: 0px !important;
+	margin-left: 0px !important;
+	transition: all 50ms ease-in-out;
+  }
+  
+  /* Hide Buttons and Reveal on Hover Finished*/
+
+
+/* Restore Firefox's default button*/
+.titlebar-min {
+  appearance: auto !important;
+  -moz-default-appearance: -moz-window-button-minimize !important;
+}
+.titlebar-max {
+  appearance: auto !important;
+  -moz-default-appearance: -moz-window-button-maximize !important;
+}
+.titlebar-restore {
+  appearance: auto !important;
+  -moz-default-appearance: -moz-window-button-restore !important;
+}
+.titlebar-close {
+  appearance: auto !important;
+  -moz-default-appearance: -moz-window-button-close !important;
+}
+.titlebar-button{
+  list-style-image: none !important;
+}

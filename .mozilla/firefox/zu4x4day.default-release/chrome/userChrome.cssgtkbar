@@ -1,0 +1,19 @@
+.titlebar-min {
+  appearance: auto !important;
+  -moz-default-appearance: -moz-window-button-minimize !important;
+}
+.titlebar-max {
+  appearance: auto !important;
+  -moz-default-appearance: -moz-window-button-maximize !important;
+}
+.titlebar-restore {
+  appearance: auto !important;
+  -moz-default-appearance: -moz-window-button-restore !important;
+}
+.titlebar-close {
+  appearance: auto !important;
+  -moz-default-appearance: -moz-window-button-close !important;
+}
+.titlebar-button{
+  list-style-image: none !important;
+}
